@@ -27,6 +27,8 @@ services:
       - SYS_ADMIN
     networks:
       - anything-llm-network
+    # personal note: bump this up if you're running large local models and seeing OOM issues
+    mem_limit: 4g
 
   # Optional: Uncomment to run a local Ollama instance alongside AnythingLLM
   # ollama:
