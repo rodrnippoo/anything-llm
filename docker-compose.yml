@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  anything-llm:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: anything-llm:latest
+    container_name: anything-llm
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    env_file:
+      - ./docker/.env
+    volumes:
+      - anything-llm-storage:/app/server/storage
+      - ./docker/.env:/app/server/.env
+    # Uncomment to enable GPU support (requires nvidia-container-toolkit)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    cap_add:
+      - SYS_ADMIN
+    networks:
+      - anything-llm-network
+
+  # Optional: Uncomment to run a local Ollama instance alongside AnythingLLM
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   container_name: ollama
+  #   restart: unless-stopped
+  #   ports:
+  #     - '11434:11434'
+  #   volumes:
+  #     - ollama-storage:/root/.ollama
+  #   networks:
+  #     - anything-llm-network
+
+volumes:
+  anything-llm-storage:
+    driver: local
+  # ollama-storage:
+  #   driver: local
+
+networks:
+  anything-llm-network:
+    driver: bridge
