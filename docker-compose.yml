@@ -28,7 +28,9 @@ services:
     networks:
       - anything-llm-network
     # personal note: bump this up if you're running large local models and seeing OOM issues
-    mem_limit: 8g
+    mem_limit: 12g
+    # also setting a soft limit slightly below the hard limit
+    mem_reservation: 10g
 
   # Optional: Uncomment to run a local Ollama instance alongside AnythingLLM
   # ollama:
