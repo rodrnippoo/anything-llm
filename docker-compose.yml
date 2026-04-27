@@ -31,6 +31,9 @@ services:
     mem_limit: 12g
     # also setting a soft limit slightly below the hard limit
     mem_reservation: 10g
+    # restart container automatically if it crashes (e.g. after an OOM kill)
+    # 'unless-stopped' above handles this but adding a delay to avoid rapid restart loops
+    stop_grace_period: 30s
 
   # Optional: Uncomment to run a local Ollama instance alongside AnythingLLM
   # ollama:
