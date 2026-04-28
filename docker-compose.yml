@@ -28,12 +28,18 @@ services:
     networks:
       - anything-llm-network
     # personal note: bump this up if you're running large local models and seeing OOM issues
-    mem_limit: 12g
+    mem_limit: 16g
     # also setting a soft limit slightly below the hard limit
-    mem_reservation: 10g
+    mem_reservation: 12g
     # restart container automatically if it crashes (e.g. after an OOM kill)
     # 'unless-stopped' above handles this but adding a delay to avoid rapid restart loops
     stop_grace_period: 30s
+    # logging config - keep last 3 days of logs, cap file size so disk doesn't fill up
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
 
   # Optional: Uncomment to run a local Ollama instance alongside AnythingLLM
   # ollama:
